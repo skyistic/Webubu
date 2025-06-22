@@ -1,0 +1,63 @@
+.textContainer {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+  perspective: 1000px;
+}
+
+.textContainer p {
+  margin: 0;
+  transition: all 0.5s;
+  transform-style: preserve-3d;
+}
+
+.textContainer .primary {
+  position: relative;
+  display: block;
+  transform-origin: bottom center;
+  transition: transform 0.5s, opacity 0.4s;
+}
+
+.textContainer .secondary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* translateY specifies final y position of the element */
+  transform: rotateX(-90deg);
+  transform-origin: bottom center;
+  opacity: 0;
+}
+
+.textContainer:hover .primary {
+  transform: translateY(-140px) rotateX(90deg);
+  opacity: 0;
+}
+
+.textContainer:hover .secondary {
+  opacity: 1;
+  transform: translateY(40px) rotateX(0deg);
+} 
+
+.container {
+    display: flex;
+    background-color: lightgrey;
+}
+
+.textContainer {
+    position: relative;
+    cursor: pointer;
+}
+
+.textContainer p {
+    font-weight: 700;
+    margin: 0px;
+    color: white;
+}
+
+.textContainer .secondary {
+    position: absolute;
+    top: -40px;
+    color: black;
+    opacity: 0;
+}
