@@ -1,6 +1,6 @@
-export const feedExtract = async (username: string, search: string): Promise<FeedResponse> => {
+export const feedExtract = async (username: string, search: string | null): Promise<FeedResponse> => {
   try {
-    const response = await fetch(`/api/nitter?username=${username}&path=search&q=${search}`);
+    const response = await fetch(`/api/nitter?username=${username}` + (search ? `&path=search&q=${search}` : ''));
     const data = await response.json();
     // Create a temporary div to parse the HTML
     const parser = new DOMParser();

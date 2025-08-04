@@ -1,3 +1,5 @@
+import { formatRelativeTime } from "@/utils/timeUtils";
+
 interface StatsProps {
   likes: number;
   retweets: number;
@@ -27,7 +29,7 @@ function Stats({likes, replies, retweets, quotes, timestamp, isHovered}: StatsPr
       </div>
       <div className={`${isHovered ? shadow : ""} flex items-center bg-gray-200 rounded-xl px-2 py-1`}>
         <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 4.625H7a4 4 0 0 0-4 4v8.75a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4v-8.75a4 4 0 0 0-4-4m-14 6h18m-4-8v4m-10-4v4"></path></svg>
-        <span className="mx-1 font-medium text-sm">{timestamp.split(' · ')[0]}</span>
+        <span className="mx-1 font-medium text-sm">{formatRelativeTime(timestamp.split(' · ')[0])}</span>
       </div>
     </div>
   )

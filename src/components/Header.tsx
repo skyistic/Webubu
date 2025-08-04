@@ -18,7 +18,7 @@ export default function Header({ setMenu }: { setMenu: () => void }) {
   }, [open]);
 
   return (
-    <>
+    <div className="relative">
     {/* <LiquidGlass
         displacementScale={110}
         blurAmount={0.2}
@@ -35,10 +35,10 @@ export default function Header({ setMenu }: { setMenu: () => void }) {
             zIndex: 100,
         }}
     > */}
-      <div className="w-[100vw] mx-auto flex flex-row justify-between items-center w-full bg-[#ffffff]/90 backdrop-blur-xl p-4 removesticky removetop-0 z-50">
+      {/* <div className="w-[100vw] mx-auto flex flex-row justify-between items-center w-full bg-[#ffffff]/90 backdrop-blur-xl p-4 removesticky removetop-0 z-50">
         <div className="max-w-[1080px] mx-auto flex flex-row justify-between items-center w-full">
           <motion.button
-            className="relative z-50 flex flex-col justify-center items-start w-10 h-10 rounded focus:outline-none overflow-hidden"
+            className="relative flex flex-col justify-center items-start w-10 h-10 rounded focus:outline-none overflow-hidden"
             onClick={() => {
               setOpen((o) => !o);
               setMenu();
@@ -48,27 +48,27 @@ export default function Header({ setMenu }: { setMenu: () => void }) {
             aria-label="Open menu"
           >
             <motion.div
-              animate={open ? {width: "100%", rotate: 45, y: 8 } : { width: "100%", rotate: 0, y: 0 }}
+              animate={open && false ? {width: "100%", rotate: 45, y: 8 } : { width: "100%", rotate: 0, y: 0 }}
               className="w-8 h-1 bg-black rounded mb-1"
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             />
             <motion.div
-              animate={open ? { width: "100%", opacity: 0 } : { width: isHovered || animationCoolDown ? "100%" : "66%", opacity: 1 }}
+              animate={open && false ? { width: "100%", opacity: 0 } : { width: isHovered || animationCoolDown ? "100%" : "66%", opacity: 1 }}
               className="w-4 h-1 bg-black rounded mb-1"
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             />
             <motion.div
-              animate={open ? { width: "100%", rotate: -45, y: -8 } : { width: isHovered || animationCoolDown ? "100%" : "33%", rotate: 0, y: 0 }}
+              animate={open && false ? { width: "100%", rotate: -45, y: -8 } : { width: isHovered || animationCoolDown ? "100%" : "33%", rotate: 0, y: 0 }}
               className="w-2 h-1 bg-black rounded"
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             />
           </motion.button>
         </div>
-      </div>
+      </div> */}
       
-      <div ref={headerRef} className="max-w-[1080px] mx-auto flex flex-col justify-between items-start gap-12 pt-12 mb-12">
-        <img src="https://i.imgur.com/n34clQe.png" alt="logo" className="h-20 w-auto" />
+      <div ref={headerRef} className="max-w-[1080px] mx-auto flex flex-col justify-between items-center gap-12 pt-12 mb-12 z-0 inset-0">
+        <img src="https://i.imgur.com/tr9aFtv.png" alt="logo" className="h-20 w-auto" />
       </div>
-    </>
+    </div>
   );
 }

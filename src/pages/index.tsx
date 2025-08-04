@@ -14,6 +14,8 @@ import BottomBar, { CenterMenu } from "@/components/BottomBar";
 import TestBar from "@/components/TestBar";
 import MenuCard from "@/components/MenuCard";
 import { GridOne, GridTwo } from "@/components/FeedModules";
+import { formatRelativeTime } from "@/utils/timeUtils";
+import { useInView } from "framer-motion";
 
 const funkydoriBold = localFont({
   src: '../../public/fonts/funkydori-bold.otf',
@@ -25,9 +27,145 @@ const funkydori = localFont({
   variable: '--font-funkydori',
 });
 
+function SideBarContent({article}: {article: FeedResponse['posts'][0]}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, {
+    once: true,
+  });
+
+  return (
+    <motion.div 
+      ref={ref} 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 10 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="bg-[#ffffff]/90 backdrop-blur-2xl p-4 rounded-3xl border border-gray-500/10 shadow-[0_0px_60px_-15px_rgba(0,0,0,0.02)]"
+    >
+      <p className="text-sm text-black mb-2">
+        {article.text
+        .replace('🚨 RESTOCK ALERT 🚨', '')
+        .split('📱')[0]
+        }
+        <span className="text-gray-500 text-xs">
+          {article.timestamp ? formatRelativeTime(article.timestamp) : ''}
+          {article.timestamp}
+        </span>
+      </p>
+    </motion.div>
+  )
+}
+
+function MenuBar({ menu, setTab, isHeaderPinned }: { menu: boolean, setTab: (tab: string) => void, isHeaderPinned: boolean }) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: menu ? 0 : 1 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className={`${isHeaderPinned ? 'border-b border-gray-500/20' : ''} bg-[#ffffff]/70 relative flex flex-row z-50 gap-4 w-full justify-start sticky top-0 backdrop-blur-2xl`}
+    >
+      <div className="relative max-w-[1080px] mx-auto flex flex-row gap-4 w-full justify-between">
+        <div className="relative top-0 left-0 h-full overflow-hidden">
+          <motion.div 
+            initial={{ y: -30, opacity: 0 }}
+            animate={{ y: isHeaderPinned ? 0 : -30, opacity: isHeaderPinned ? 1 : 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="h-full w-full flex flex-col justify-center"
+          >
+            <img src="https://i.imgur.com/tr9aFtv.png" alt="logo" className="h-10 w-full object-cover" />
+          </motion.div>
+        </div>
+        <motion.div 
+          className="flex flex-row gap-4 justify-center p-4"
+          initial={{ x: 0 }}
+          // True to temporarily disable the hamburger menu
+          animate={{ x: 0, opacity: menu ? 0 : 1 }} // 56px = button width (40px) + gap (16px)
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          {['Labubu', 'Molly', 'Hirono', 'Skullpanda', 'Dimoo'].map((item, idx) => (
+            <motion.button 
+              initial={{ x: 0 }}
+              animate={{ x: menu ? 8 * ((!isHeaderPinned ? -2 : 5) - idx) : 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              onClick={() => setTab(item)} key={idx} className={`cursor-pointer px-4 py-2 flex flex-col h-full`}>
+              <div className="text-sm text-black underline font-semibold whitespace-pre-line">
+                {item}
+              </div>
+            </motion.button>
+          ))}
+        </motion.div>
+        <div className="relative top-0 left-0 h-14 w-40 -mt-4 overflow-hidden  "/>
+      </div>
+    </motion.div>
+  )
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: menu ? 0 : 1 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="flex flex-row z-50 gap-4 w-full justify-start sticky top-0 p-4 bg-[#ffffff]/0 backdrop-blur-2xl"
+    >
+      <div className="max-w-[1080px] mx-auto flex flex-row gap-4 w-full justify-start">
+        {/* <motion.button
+          className="relative inset-0 flex flex-col justify-center items-start w-10 h-10 rounded focus:outline-none overflow-hidden"
+          onClick={() => {
+            setOpen((o) => !o);
+            debouncedSetMenu(!menu);
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          aria-label="Open menu"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ 
+            opacity: isHeaderPinned ? 1 : 0, 
+            x: isHeaderPinned ? 0 : -20 
+          }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          <motion.div
+            animate={open && false ? {width: "100%", rotate: 45, y: 8 } : { width: "100%", rotate: 0, y: 0 }}
+            className="w-8 h-1 bg-black rounded mb-1"
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          />
+          <motion.div
+            animate={open && false ? { width: "100%", opacity: 0 } : { width: isHovered || animationCoolDown ? "100%" : "66%", opacity: 1 }}
+            className="w-4 h-1 bg-black rounded mb-1"
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          />
+          <motion.div
+            animate={open && false ? { width: "100%", rotate: -45, y: -8 } : { width: isHovered || animationCoolDown ? "100%" : "33%", rotate: 0, y: 0 }}
+            className="w-2 h-1 bg-black rounded"
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          />
+        </motion.button> */}
+
+        <motion.div 
+          className="flex flex-row gap-4"
+          initial={{ x: 0 }}
+          // True to temporarily disable the hamburger menu
+          animate={{ x: true ? 0 : isHeaderPinned && !menu ? 8 : -50, opacity: menu ? 0 : 1 }} // 56px = button width (40px) + gap (16px)
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          {['Labubu', 'Molly', 'Hirono', 'Skullpanda', 'Dimoo'].map((item, idx) => (
+            <motion.button 
+              initial={{ x: 0 }}
+              animate={{ x: menu ? 8 * ((!isHeaderPinned ? -2 : 5) - idx) : 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              onClick={() => setTab(item)} key={idx} className={`cursor-pointer rounded-[20px] bg-black px-4 py-2 flex flex-col h-full`}>
+              <div className="text-sm text-white whitespace-pre-line">
+                {item}
+              </div>
+            </motion.button>
+          ))}
+        </motion.div>
+      </div>
+    </motion.div>
+  )
+}
+
 export default function Home() {
   const [tweetContent, setTweetContent] = useState<string>('');
   const [feedContent, setFeedContent] = useState<FeedResponse['posts']>([]);
+  const [restocksContent, setRestocksContent] = useState<FeedResponse['posts']>([]);
   const [page, setPage] = useState("News");
   const [menu, setMenu] = useState(false);
   const lastMenuToggle = useRef<number>(0);
@@ -65,6 +203,20 @@ export default function Home() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchRestocks = async () => {
+      if(fetching) return;
+      setFetching(true);
+      const response = await feedExtract('restockd_ping', null);
+      console.log(response);
+      viewMore('restockd_ping', response.loadMoreUrl);
+      setRestocksContent(response.posts.slice(0,10));
+      setFetching(false);
+    };
+
+    fetchRestocks();
   }, []);
 
   useEffect(() => {
@@ -111,122 +263,77 @@ export default function Home() {
           </div>
         )}
 
-        <div className="flex flex-row gap-4 w-full justify-start sticky top-0 z-50 p-4 bg-[#ffffff]/90 backdrop-blur-xl">
-          <div className="max-w-[1080px] mx-auto flex flex-row gap-4 w-full justify-start">
-            <motion.button
-              className="relative z-50 flex flex-col justify-center items-start w-10 h-10 rounded focus:outline-none overflow-hidden"
-              onClick={() => {
-                setOpen((o) => !o);
-                debouncedSetMenu(!menu);
-              }}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              aria-label="Open menu"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ 
-                opacity: isHeaderPinned ? 1 : 0, 
-                x: isHeaderPinned ? 0 : -20 
-              }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <motion.div
-                animate={open ? {width: "100%", rotate: 45, y: 8 } : { width: "100%", rotate: 0, y: 0 }}
-                className="w-8 h-1 bg-black rounded mb-1"
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              />
-              <motion.div
-                animate={open ? { width: "100%", opacity: 0 } : { width: isHovered || animationCoolDown ? "100%" : "66%", opacity: 1 }}
-                className="w-4 h-1 bg-black rounded mb-1"
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              />
-              <motion.div
-                animate={open ? { width: "100%", rotate: -45, y: -8 } : { width: isHovered || animationCoolDown ? "100%" : "33%", rotate: 0, y: 0 }}
-                className="w-2 h-1 bg-black rounded"
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              />
-            </motion.button>
-
-            <motion.div 
-              className="flex flex-row gap-4"
-              initial={{ x: 0 }}
-              animate={{ x: isHeaderPinned && !menu ? 8 : -50, opacity: menu ? 0 : 1 }} // 56px = button width (40px) + gap (16px)
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              {['Labubu', 'Molly', 'Hirono', 'Skullpanda', 'Dimoo'].map((item, idx) => (
-                <motion.button 
-                  initial={{ x: 0 }}
-                  animate={{ x: menu ? 8 * (5 - idx) : 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  onClick={() => setTab(item)} key={idx} className={`cursor-pointer rounded-[20px] bg-black px-4 py-2 flex flex-col h-full`}>
-                  <div className="text-sm text-white whitespace-pre-line">
-                    {item}
-                  </div>
-                </motion.button>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-
+        <MenuBar menu={menu} setTab={setTab} isHeaderPinned={isHeaderPinned} />
+        
         <div
-          className={`bg-[#ffffff] min-h-screen overflow-x-hidden`}
+          className={`bg-[#ffffff] overflow-x-hidden mt-6`}
         >
           <main className="flex flex-col gap-6 w-screen items-center">
-            <div className="max-w-[1080px] gap-6 flex-1">
-              <div className="col-span-2">
-                <GridOne posts={feedContent} />
+            <div className="max-w-[1080px] w-full gap-6 flex-1 flex flex-row">
+              <div className="w-3/4 flex flex-col gap-2">
+                {/* <div className="w-full aspect-[2] rounded-md overflow-hidden">
+                  <img src="https://miro.medium.com/v2/resize:fit:806/0*taYqENrufmxEw2n6.jpeg" alt="logo" className="h-full w-full object-cover" />
+                </div> */}
+{(() => {
+                  // Filter out items without images
+                  const filteredFeedContent = feedContent.filter(item => item.images && item.images[0]);
+                  
+                  const components = [];
+                  let currentIndex = 0;
+                  let gridIndex = 0;
+                  
+                  while (currentIndex < filteredFeedContent.length) {
+                    const isGridOne = gridIndex % 2 === 0;
+                    
+                                          if (isGridOne) {
+                        // GridOne shows 4 posts
+                        const postsForGrid = filteredFeedContent.slice(currentIndex, currentIndex + 4);
+                        if (postsForGrid.length > 0) {
+                          components.push(
+                            <div key={`grid-one-${gridIndex}`}>
+                              <GridOne posts={postsForGrid} />
+                              {currentIndex + 4 < filteredFeedContent.length && (
+                                <div className="w-full h-[1px] bg-black my-10 rounded-full" />
+                              )}
+                            </div>
+                          );
+                          currentIndex += 4;
+                        }
+                      } else {
+                        // GridTwo shows up to 8 posts
+                        const postsForGrid = filteredFeedContent.slice(currentIndex, currentIndex + 8);
+                        if (postsForGrid.length > 0) {
+                          components.push(
+                            <div key={`grid-two-${gridIndex}`}>
+                              <GridTwo posts={postsForGrid} />
+                              {currentIndex + 8 < filteredFeedContent.length && (
+                                <div className="w-full h-[1px] bg-black my-10 rounded-full" />
+                              )}
+                            </div>
+                          );
+                          currentIndex += 8;
+                        }
+                      }
+                    gridIndex++;
+                  }
+                  
+                  return components;
+                })()}
               </div>
-              <div className="w-full h-[1px] bg-black my-10 rounded-full" />
-              <div className="flex flex-col gap-2">
-                <GridTwo posts={feedContent.filter((article) => article.images.length > 0).slice(0, 4)} />
+              <div className="w-1/4 sticky top-40">
+                <div className="flex flex-col gap-4">
+                  <span className={`${funkydori.className} mt-4 text-[60px] text-black -mb-8`}>Restocks</span>
+                  <AnimatePresence>
+                    {restocksContent.map((article, idx) => (
+                      <SideBarContent key={idx} article={article} />
+                    ))}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
           </main>
           <footer className="row-start-3 flex mt-20 gap-[24px] flex-wrap items-center justify-center">
-            <a
-              className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="/file.svg"
-                alt="File icon"
-                width={16}
-                height={16}
-              />
-              Learn
-            </a>
-            <a
-              className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="/window.svg"
-                alt="Window icon"
-                width={16}
-                height={16}
-              />
-              Examples
-            </a>
-            <a
-              className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-              href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                aria-hidden
-                src="/globe.svg"
-                alt="Globe icon"
-                width={16}
-                height={16}
-              />
-              Go to nextjs.org →
-            </a>
+            
           </footer>
         </div>
       </div>

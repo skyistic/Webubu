@@ -18,19 +18,19 @@ export function GridOne({posts}: {posts: FeedResponse['posts']}) {
         <div>
           <img src={"https://nitter.net" + mainArticle.images[0]} alt="Main article image" className="w-full aspect-[3/2] object-cover rounded-xl mb-4" />
           <p className="text-base text-gray-500 leading-normal line-clamp-4">{mainArticle.text}</p>
-          <Stats {...mainArticle} />
+          <Stats {...mainArticle} isHovered={false} />
         </div>
         <div className="flex-1 flex flex-col gap-5">
           {sideArticles.map((article: FeedResponse['posts'][0], index: number) => (
             <div key={index} className="flex gap-4">
-              <div className="relative w-[150px] flex-shrink-0">
+              <div className="relative w-[150px] flex-shrink-0 inset-0 z-0">
                 <img src={"https://nitter.net" + article.images[0]} alt="Article image" className="rounded-none w-full aspect-[1/1] object-cover" />
                 {/* Hardcoded live badge */}
                 {index === 0 && <span className="absolute top-2 right-2 bg-red-500 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">LIVE</span>}
               </div>
               <div className="flex flex-col">
                 <p className="text-base text-gray-500 leading-normal line-clamp-4">{article.text}</p>
-                <Stats {...article} />  
+                <Stats {...article} isHovered={false} />  
               </div>
             </div>
           ))}
