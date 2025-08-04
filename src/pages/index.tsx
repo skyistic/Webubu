@@ -265,16 +265,34 @@ export default function Home() {
 
         <MenuBar menu={menu} setTab={setTab} isHeaderPinned={isHeaderPinned} />
         
+                {/* Horizontal Restocks Section - Mobile Only */}
+        <div className="w-full overflow-x-hidden md:hidden">
+          <div className="max-w-[1080px] mx-auto px-4">
+            <span className={`${funkydori.className} text-4xl text-black mb-4 block`}>Restocks</span>
+            <div className="overflow-x-auto pb-4">
+              <div className="flex gap-4 w-max">
+                <AnimatePresence>
+                  {restocksContent.map((article, idx) => (
+                    <div key={idx} className="w-80 flex-shrink-0">
+                      <SideBarContent article={article} />
+                    </div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div
           className={`bg-[#ffffff] overflow-x-hidden mt-6`}
         >
           <main className="flex flex-col gap-6 w-screen items-center">
-            <div className="max-w-[1080px] w-full gap-6 flex-1 flex flex-row">
-              <div className="w-3/4 flex flex-col gap-2">
+            <div className="max-w-[1080px] w-full gap-6 flex-1 flex flex-col md:flex-row px-4 md:px-0">
+              <div className="w-full md:w-3/4 flex flex-col gap-2">
                 {/* <div className="w-full aspect-[2] rounded-md overflow-hidden">
                   <img src="https://miro.medium.com/v2/resize:fit:806/0*taYqENrufmxEw2n6.jpeg" alt="logo" className="h-full w-full object-cover" />
                 </div> */}
-{(() => {
+                {(() => {
                   // Filter out items without images
                   const filteredFeedContent = feedContent.filter(item => item.images && item.images[0]);
                   
@@ -285,42 +303,44 @@ export default function Home() {
                   while (currentIndex < filteredFeedContent.length) {
                     const isGridOne = gridIndex % 2 === 0;
                     
-                                          if (isGridOne) {
-                        // GridOne shows 4 posts
-                        const postsForGrid = filteredFeedContent.slice(currentIndex, currentIndex + 4);
-                        if (postsForGrid.length > 0) {
-                          components.push(
-                            <div key={`grid-one-${gridIndex}`}>
-                              <GridOne posts={postsForGrid} />
-                              {currentIndex + 4 < filteredFeedContent.length && (
-                                <div className="w-full h-[1px] bg-black my-10 rounded-full" />
-                              )}
-                            </div>
-                          );
-                          currentIndex += 4;
-                        }
-                      } else {
-                        // GridTwo shows up to 8 posts
-                        const postsForGrid = filteredFeedContent.slice(currentIndex, currentIndex + 8);
-                        if (postsForGrid.length > 0) {
-                          components.push(
-                            <div key={`grid-two-${gridIndex}`}>
-                              <GridTwo posts={postsForGrid} />
-                              {currentIndex + 8 < filteredFeedContent.length && (
-                                <div className="w-full h-[1px] bg-black my-10 rounded-full" />
-                              )}
-                            </div>
-                          );
-                          currentIndex += 8;
-                        }
+                    if (isGridOne) {
+                      // GridOne shows 4 posts
+                      const postsForGrid = filteredFeedContent.slice(currentIndex, currentIndex + 4);
+                      if (postsForGrid.length > 0) {
+                        components.push(
+                          <div key={`grid-one-${gridIndex}`}>
+                            <GridOne posts={postsForGrid} />
+                            {currentIndex + 4 < filteredFeedContent.length && (
+                              <div className="w-full h-[1px] bg-black my-10 rounded-full" />
+                            )}
+                          </div>
+                        );
+                        currentIndex += 4;
                       }
+                    } else {
+                      // GridTwo shows up to 8 posts
+                      const postsForGrid = filteredFeedContent.slice(currentIndex, currentIndex + 8);
+                      if (postsForGrid.length > 0) {
+                        components.push(
+                          <div key={`grid-two-${gridIndex}`}>
+                            <GridTwo posts={postsForGrid} />
+                            {currentIndex + 8 < filteredFeedContent.length && (
+                              <div className="w-full h-[1px] bg-black my-10 rounded-full" />
+                            )}
+                          </div>
+                        );
+                        currentIndex += 8;
+                      }
+                    }
                     gridIndex++;
                   }
                   
                   return components;
                 })()}
               </div>
-              <div className="w-1/4 sticky top-40">
+              
+              {/* Desktop Sidebar - Hidden on Mobile */}
+              <div className="hidden md:block md:w-1/4 sticky top-40">
                 <div className="flex flex-col gap-4">
                   <span className={`${funkydori.className} mt-4 text-[60px] text-black -mb-8`}>Restocks</span>
                   <AnimatePresence>

@@ -32,9 +32,9 @@ export function formatRelativeTime(timestamp: string): string {
     } else if (diffInMinutes > 0) {
       return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
     } else {
-      return "today";
+      return "";
     }
   } else {
-    return "today";
+    return "";
   }
 } 
