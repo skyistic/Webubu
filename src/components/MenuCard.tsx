@@ -94,7 +94,7 @@ export default function MenuCard({ title, image, onClick, menu, delay = 0.6, sec
           }
         }}
       >
-        <Text3d secondaryColor={secondaryColor} primary={title} secondary={secondary}/>
+        <Text3d secondaryColor={secondaryColor} primary={title} secondary={secondary || ""}/>
       </motion.span>
       {flipper || animating?
         <motion.div
