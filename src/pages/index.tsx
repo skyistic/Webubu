@@ -266,11 +266,13 @@ export default function Home() {
         <MenuBar menu={menu} setTab={setTab} isHeaderPinned={isHeaderPinned} />
         
                 {/* Horizontal Restocks Section - Mobile Only */}
-        <div className="w-full overflow-x-hidden md:hidden">
-          <div className="max-w-[1080px] mx-auto px-4">
-            <span className={`${funkydori.className} text-4xl text-black mb-4 block`}>Restocks</span>
+        <div className="w-full overflow-x-hidden sm:hidden">
+          <div className="w-full">
+            <div className="max-w-[1080px] mx-auto px-4">
+              <span className={`${funkydori.className} text-[60px] sm:text-4xl text-black mb-0 sm:mb-4 block mt-8 sm:mt-0 text-center sm:text-left`}>Restocks</span>
+            </div>
             <div className="overflow-x-auto pb-4">
-              <div className="flex gap-4 w-max">
+              <div className="flex gap-4 w-max pl-4">
                 <AnimatePresence>
                   {restocksContent.map((article, idx) => (
                     <div key={idx} className="w-80 flex-shrink-0">
@@ -283,12 +285,15 @@ export default function Home() {
           </div>
         </div>
 
+        <div className="flex sm:hidden w-full">
+          <span className={`${funkydori.className} text-[60px] sm:text-4xl text-black block text-center m-auto`}>Products</span>
+        </div>
         <div
           className={`bg-[#ffffff] overflow-x-hidden mt-6`}
         >
-          <main className="flex flex-col gap-6 w-screen items-center">
-            <div className="max-w-[1080px] w-full gap-6 flex-1 flex flex-col md:flex-row px-4 md:px-0">
-              <div className="w-full md:w-3/4 flex flex-col gap-2">
+          <main className="flex flex-col gap-6 w-full items-center">
+            <div className="max-w-[1080px] w-full gap-6 flex-1 flex flex-col sm:flex-row px-4 sm:px-0">
+              <div className="w-full sm:w-3/4 flex flex-col gap-2">
                 {/* <div className="w-full aspect-[2] rounded-md overflow-hidden">
                   <img src="https://miro.medium.com/v2/resize:fit:806/0*taYqENrufmxEw2n6.jpeg" alt="logo" className="h-full w-full object-cover" />
                 </div> */}
@@ -340,7 +345,7 @@ export default function Home() {
               </div>
               
               {/* Desktop Sidebar - Hidden on Mobile */}
-              <div className="hidden md:block md:w-1/4 sticky top-40">
+              <div className="hidden sm:block sm:w-1/4 sticky top-40">
                 <div className="flex flex-col gap-4">
                   <span className={`${funkydori.className} mt-4 text-[60px] text-black -mb-8`}>Restocks</span>
                   <AnimatePresence>
