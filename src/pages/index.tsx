@@ -246,7 +246,7 @@ export default function Home() {
   }, [tab]);
 
   return (
-    <div className="relative z-20 bg-[#ffffff] pt-12">
+    <div className="relative z-20 bg-[#ffffff] pt-12 w-full min-h-screen">
       {/* Sticky header at viewport level */}
       <Header setMenu={() => debouncedSetMenu(!menu)} />
       
@@ -271,7 +271,7 @@ export default function Home() {
             <div className="max-w-[1080px] mx-auto px-4">
               <span className={`${funkydori.className} text-[60px] sm:text-4xl text-black mb-0 sm:mb-4 block mt-8 sm:mt-0 text-center sm:text-left`}>Restocks</span>
             </div>
-            <div className="overflow-x-auto pb-4">
+            <div className="overflow-x-auto pb-4 max-w-full">
               <div className="flex gap-4 w-max pl-4">
                 <AnimatePresence>
                   {restocksContent.map((article, idx) => (
@@ -286,13 +286,13 @@ export default function Home() {
         </div>
 
         <div className="flex sm:hidden w-full">
-          <span className={`${funkydori.className} text-[60px] sm:text-4xl text-black block text-center m-auto`}>Products</span>
+          <span className={`${funkydori.className} text-[60px] sm:text-4xl text-black block text-center m-auto mt-8 -mb-10`}>Products</span>
         </div>
         <div
-          className={`bg-[#ffffff] overflow-x-hidden mt-6`}
+          className={`bg-[#ffffff] mt-6 w-full max-w-full`}
         >
-          <main className="flex flex-col gap-6 w-full items-center">
-            <div className="max-w-[1080px] w-full gap-6 flex-1 flex flex-col sm:flex-row px-4 sm:px-0">
+          <main className="flex flex-col gap-6 w-full items-center max-w-full">
+            <div className="w-full max-w-[1080px] gap-6 flex-1 flex flex-col sm:flex-row px-4 sm:px-0">
               <div className="w-full sm:w-3/4 flex flex-col gap-2">
                 {/* <div className="w-full aspect-[2] rounded-md overflow-hidden">
                   <img src="https://miro.medium.com/v2/resize:fit:806/0*taYqENrufmxEw2n6.jpeg" alt="logo" className="h-full w-full object-cover" />

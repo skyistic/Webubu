@@ -1,7 +1,12 @@
 @import "tailwindcss";
 
+* {
+  box-sizing: border-box;
+}
+
 html,body {
-  width: 100vw;
+  width: 100%;
+  max-width: 100%;
 }
 
 :root {
