@@ -166,6 +166,7 @@ export default function Home() {
   const [tweetContent, setTweetContent] = useState<string>('');
   const [feedContent, setFeedContent] = useState<FeedResponse['posts']>([]);
   const [restocksContent, setRestocksContent] = useState<FeedResponse['posts']>([]);
+  const [loadMoreUrl, setLoadMoreUrl] = useState<string>('');
   const [page, setPage] = useState("News");
   const [menu, setMenu] = useState(false);
   const lastMenuToggle = useRef<number>(0);
@@ -223,10 +224,23 @@ export default function Home() {
     const fetchFeed = async () => {
       if(fetching) return;
       setFetching(true);
+      
+      // Fetch first page
       const response = await feedExtract('POPMARTGlobal', tab);
-      console.log(response);
-      // viewMore('POPMARTGlobal', response.loadMoreUrl);
-      setFeedContent(response.posts);
+      console.log('Page 1:', response);
+      setLoadMoreUrl(response.loadMoreUrl);
+      
+      // Fetch second page if loadMoreUrl exists
+      if (response.loadMoreUrl) {
+        const moreResponse = await viewMore('POPMARTGlobal', response.loadMoreUrl);
+        console.log('Page 2:', moreResponse);
+        // Combine both pages
+        setFeedContent([...response.posts, ...moreResponse.posts]);
+        setLoadMoreUrl(moreResponse.loadMoreUrl); // Store next loadMoreUrl for potential future use
+      } else {
+        setFeedContent(response.posts);
+      }
+      
       setFetching(false);
     };
 

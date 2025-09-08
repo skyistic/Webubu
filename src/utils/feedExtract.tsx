@@ -57,7 +57,7 @@ export const feedExtract = async (username: string, search: string | null): Prom
   }
 };
 
-export const viewMore = async (username: string, loadMoreUrl: string): Promise<void> => {
+export const viewMore = async (username: string, loadMoreUrl: string): Promise<FeedResponse> => {
   try {
     console.log(loadMoreUrl);
     const response = await fetch(`/api/nitter?username=${username}${loadMoreUrl.replace("?f=tweets&", "&f=tweets&")}`);
@@ -111,10 +111,10 @@ export const viewMore = async (username: string, loadMoreUrl: string): Promise<v
     };
     console.log("View more");
     console.log(result);
-    //return result;
+    return result;
   } catch (error) {
     console.error('Error fetching feed:', error);
-    return;
+    return { posts: [], loadMoreUrl: '' };
   }
 };
 
