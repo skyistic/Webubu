@@ -67,7 +67,7 @@ export default function Header({ setMenu }: { setMenu: () => void }) {
       </div> */}
       
       <div ref={headerRef} className="max-w-[1080px] mx-auto flex flex-col justify-between items-center gap-12 pt-12 mb-12 z-0 inset-0">
-        <img src="https://i.imgur.com/tr9aFtv.png" alt="logo" className="h-20 w-auto" />
+        <img src="https://i.ibb.co/YFmgKZ6v/image.png" alt="logo" className="h-20 w-auto" />
       </div>
     </div>
   );
