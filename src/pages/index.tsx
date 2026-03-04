@@ -71,7 +71,7 @@ function MenuBar({ menu, setTab, isHeaderPinned }: { menu: boolean, setTab: (tab
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="h-full w-full flex flex-col justify-center"
           >
-            <img src="https://i.imgur.com/tr9aFtv.png" alt="logo" className="h-10 w-full object-cover" />
+            <img src="https://i.ibb.co/YFmgKZ6v/image.png" alt="logo" className="h-10 w-full object-cover" />
           </motion.div>
         </div>
         <motion.div 
